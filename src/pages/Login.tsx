@@ -3,17 +3,35 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { supabase } from '@/lib/supabase'; // Import the Supabase client
+import { showError, showSuccess } from '@/utils/toast'; // Import toast utilities
 
 const Login = () => {
-  // Basic state for form inputs (can be expanded later with form libraries like react-hook-form)
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false); // State to manage loading button state
+  const navigate = useNavigate(); // Initialize useNavigate
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login attempted with:', { email, password });
-    // TODO: Implement actual login logic here (e.g., call an API)
-    // You will need a backend service (like Supabase) to handle authentication
+    setIsLoading(true); // Set loading state
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    setIsLoading(false); // Reset loading state
+
+    if (error) {
+      console.error('Login error:', error.message);
+      showError(`உள்நுழைவு தோல்வியடைந்தது: ${error.message}`); // Show error toast
+    } else {
+      console.log('Login successful');
+      showSuccess('உள்நுழைவு வெற்றி!'); // Show success toast
+      navigate('/'); // Redirect to home page on success
+    }
   };
 
   return (
@@ -37,6 +55,7 @@ const Login = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={isLoading} // Disable input while loading
                 />
               </div>
               <div className="grid gap-2">
@@ -47,10 +66,11 @@ const Login = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  disabled={isLoading} // Disable input while loading
                 />
               </div>
-              <Button type="submit" className="w-full">
-                உள்நுழை
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? 'உள்நுழைகிறது...' : 'உள்நுழை'} {/* Change button text while loading */}
               </Button>
             </div>
           </form>
