@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="ta">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DMK Booth Management - Hosur</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.5/jspdf.plugin.autotable.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+      body {
+        font-family: 'Noto Sans Tamil', sans-serif;
+      }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script>
+      /**
+       * This file is a self-contained definition of the Latha font for use with jsPDF.
+       * It is pre-compiled and includes the font data as a base64 string.
+       */
+      (function (jsPDFAPI) {
+          'use strict';
+          var font = 'AAEAAAARAQAABAAQR0RFRgBsA2cAAEdiAAAeJEdQT1OhswiNAAFeIAAALExHU1VCx4o+UgAAbdQAAABYQlBPUxAAAEMAAG4EAAACkENBTEwQAAAAAAG4QAAAAIZjbWFwAAE/AAAAoAAAAHyIZ2x5Zn85iXQAAIQAAADQaGVhZAUYwi0AAADcAAAANmhoZWEH8wTSAAABBAAAACRobXR4BEQAhAAABSgAAAGsbG9jYQG8AdIAAAGYAAAAdG1tYXgAEgGYAAABpAAAAEBbmFtZRAPyqIAAAG4AAASMnBvc3QAAwAAAAACFAAAACAAAwIAAZAABQAAAUwBZgAAAEcBTAFmAAAA9QAZAIQAAAAAAAAAAAAAAAAAAAABAAAgAgAAAAAAAAAAAAIAAAADAAEAAQAAABQAAwABAAAAAAACAAIAAQABAAMgAAMAAQAAAAIABAADAAAAAAACAAMAAQAAAAAACwAUABQAAQAOACQARgBcAG4AdgB8AIsApgDAANMA7AEIAAsAPwBOAFoAgQCQALEAwADTAO4BBgAsAD0AUABWAF4AagBwAHoAfACGAJIAmwCjALQAwQDSAO4BDQAgAC4AQwBLAFkAXwBpAHUAewCGAJQAoACrALgAwwDUAO4BEQAAAAAAAAAAAAAAACoAYABkAHAAfACAAIIAigCMAJAAkgCYAJoAnACiAKQApgCoAKsArACtAK4ArwCwALEAsgCzAOwA7gDvAPQA9gD4APoA/AD+AQABCAAAAAAAAAAAAAAACgAYACYAKgAwADYAOgA8AEIARgBMAFwAXgBiAGYAaABqAGwAbgBwAHIAeAB6AHwAfgCAAIIAhACGAIgAigCNAI8AkACSAJgAnQCgAKIApACmAKgAqgCsAK4AsACyALgAugDAAMoA0gDYAN4A4gDoAO4A8AD6AQABBwEJAQsBDQEPASMBKgEsAS4BMAEyATQBNgE4AToBPAE+AUABSgFOAVABVgFYAVoBXAFkAWgBbAFyAXgBfAGQAZgBoAGoAbABuAHEAcwB1AGMAdQB3AHkAdwB5AHsAfQB/AIEAgwCDAIMAhQCIAIoAjACQAJQAmgCeAKAAogCkAKYAqACqAKwArwC9AMIAxADGAMgAygDSANoA4gDkAOoA8ADyAPgA+wD/AQQBCQEOARIBFwEkASYBKAEwATQBNgE4AToBQQFDAUUBSwFMAU4BUAFQAV4BYgFkAWgBawFvAXUBdwF/AYMBhQGHAYwBjQGWAZgBnQGkAaYBqwGuAbABswG8AcIBxQHHAccByQHMAc4B0QHUAdYB3AHhAekB7AHuAfQB+AH/AgQCCAIQAhQCHAIiAigCMAI4Aj4CRgJMAlACVAJYAmACZgJqAm4CcAJyAnQCegJ8AoACggKEAoYCigKOApACkgKUApoCnAKgAqACpAKmAgAAAAAAAAAAAAAACgAZACQAKgAvADUAOgA/AEQARwBOAFMAXQBjAGgAbwB1AHoAgwCOAJIAmQCfAKgArQC6AMQA0QDfAOUA7wD/AQUBCwEPAAABHQEqASwAAAAAAQAAAAAAAQAAAAAAAQAAAAEAAAAAAQAAAAEAAAAAAQAAAAEAAAAAAQAAAAEAAAAAAQAAAAEAAQABAAEAAAAAAQAAAAEAAAAAAAABAAEAAAAAAAEAAQABAAEAAAACAAgAAgAAAAAABQAAAAEAAAABAAMAAQAAAAAAAAAAAAIAAgACAAEAADMAAQAAAgAAAAEAAQAAAAAIAAEAAQAAAAAAAgABAAAAAAAKAAoAAAAAAAwAAgABAAAAAAAAAAAAAgACAAIAAAAAAwAAAAMAAAABAAAAAgABAAAAAgAAAAIAAgABAAAAAwACAAAAAAAAAAACAAMAAQAAAAQAAgACAAIAAAABAQABAAEAAAEAAAACAAIAAAABAAACAAMAAgABAAAAAgACAAIAAwABAAAAAAAAAAQAAwABAAAAAAADAAYAAgABAAABAgACAAIAAAADAAIAAgACAAAAAwACAAIAAgAAAAMAAwACAAAAAAAGAAEAAgAAAAAAAgACAAIAAgAAAAYAAgAAAAAAAgACAAIAAgAAAAYAAgACAAUAAgABAAAAAwABAAQAAwABAAAAAAAAAAQAAgABAAAAAAYAAQAAAAAAAwADAAAAAAMAAwAAAAEAAAAAAAAAAAAAAAACAAQAAgAAAAMAAgAEAAUAAgAAAAEAAQACAAIAAgAAAAYABQADAAMAAQACAAAAAAAAAAIAAgACAAAAAAYAAwACAAUAAQADAAAAAwACAAAAAAADAAUAAwADAAIAAgAAAAEAAgABAAIAAgACAAIAAAACAAIAAgACAAAAAwACAAIAAgACAAQAAgACAAAAAwADAAUAAgABAAAAAAYAAQADAAQAAgADAAAAAgACAAEAAgACAAIAAAAEAAIAAQACAAQAAQACAAQAAwADAAEAAQAAAAEAAwABAAIAAgACAAQABAAEAAIAAgABAAQAAgABAAQAAQAEAAUAAgAEAAEAAwADAAUAAgACAAQABAAEAAAAAAABAAEAAQABAAAAAgADAAUAAQAAAAEAAgAEAAIAAQACAAUAAgABAAAAAAABAAEAAwABAAQAAgABAAEAAQABAAEAAwABAAIAAgABAAQAAQADAAEAAQADAAEAAQADAAEAAQABAAQAAwACAAQAAwABAAQAAQAEAAEAAQACAAIAAgACAAIAAgACAAQAAgADAAUAAgABAAEAAwACAAIAAgADAAIAAQABAAAAAQACAAQAAgABAAIAAwAAAAEAAgAEAAIAAgABAAEAAQAAAAEAAwADAAIAAQAAAAEAAgABAAIAAAACAAIAAAABAAEAAQACAAIAAAABAAEAAwABAAAAAQACAAIAAQADAAAAAgABAAIAAgABAAAAAgADAAEAAQACAAIAAAABAAEAAQADAAIAAwABAAUAAQADAAEAAQACAAIAAgABAAAAAwABAAQAAwACAAAAAQACAAAAAAACAAIAAwADAAIAAgACAAEAAQACAAEAAgADAAIAAwABAAQAAgACAAUAAQACAAQAAgACAAUAAQACAAQAAgADAAEAAQAAAAIAAgACAAEAAQAAAAIAAgADAAEAAwABAAEAAwABAAEAAQACAAQAAgACAAEAAgACAAQAAgABAAIAAgAAAAIAAgADAAIAAQACAAIAAgACAAIAAQAAAAEAAgACAAQAAgACAAAAAAACAAUAAwABAAIAAgABAAQAAQADAAEAAQACAAQAAwADAAEAAwADAAQAAQAEAAIAAwABAAQAAgACAAEAAgACAAUAAQACAAQAAgADAAUAAgABAAQAAQADAAIAAwABAAQAAgACAAIAAgACAAQAAgACAAEAAgACAAQAAQABAAIAAgABAAIAAAACAAUAAQACAAEAAgADAAEAAgADAAEAAQACAAIAAwACAAIAAQACAAUAAgACAAUAAQABAAIAAgADAAQAAQACAAQAAgABAAIAAwADAAIAAQACAAIAAgADAAQAAQACAAEAAQACAAUAAQADAAEAAwABAAIAAAACAAQAAQADAAIAAwACAAIAAgABAAEAAgACAAQAAgACAAQAAgACAAEAAQACAAIAAwACAAQAAQACAAEAAQACAAIAAgACAAQAAgADAAEAAQADAAIAAQACAAEAAQACAAEAAQACAAIAAQADAAEAAQADAAIAAwADAAEAAwADAAQAAwADAAEAAgADAAIAAQADAAEAAgACAAUAAgACAAIAAwACAAQAAgACAAIAAwACAAIAAwACAAEAAgADAAQAAgADAAUAAgACAAQAAgACAAIAAwACAAQAAgACAAQAAgADAAUAAgACAAIAAwACAAQAAQACAAQAAgADAAUAAgACAAUAAgACAAQAAgACAAIAAwACAAEAAwACAAQAAgADAAUAAgACAAUAAgACAAEAAQADAAQAAQACAAUAAQADAAIAAwADAAEAAwACAAIAAQACAAQAAgADAAUAAgADAAIAAgABAAEAAQADAAIAAQACAAQAAgADAAUAAgACAAIAAwADAAEAAgACAAIAAQACAAIAAwACAAQAAQADAAQAAgADAAUAAQACAAEAAgACAAEAAQACAAIAAQACAAIAAwADAAQAAgADAAUAAQACAAEAAwADAAEAAgACAAIAAQACAAEAAwADAAQAAQADAAEAAgADAAEAAgADAAQAAQACAAEAAgACAAEAAwADAAEAAgADAAUAAwADAAIAAQADAAEAAgADAAQAAwADAAEAAgACAAEAAgADAAQAAwACAAIAAgACAAEAAgADAAUAAwACAAQAAwACAAIAAwADAAQAAwADAAQAAwACAAEAAgACAAEAAgADAAUAAwACAAQAAgADAAIAAgACAAEAAwACAAQAAwACAAQAAwACAAQAAgADAAIAAgACAAEAAgADAAQAAgACAAIAAQACAAQAAgACAAQAAgACAAEAAgACAAIAAwACAAUAAgACAAIAAQACAAIAAQADAAEAAgACAAEAAgADAAEAAgADAAEAAwACAAIAAgADAAIAAwACAAIAAQACAAIAAgADAAEAAgADAAIAAwABAAEAAwABAAIAAQACAAIAAgACAAEAAwABAAEAAwACAAEAAwADAAQAAQACAAUAAQADAAEAAwABAAIAAQACAAIAAwADAAIAAwABAAIAAQACAAIAAwACAAUAAQACAAIAAQADAAQAAQACAAQAAwADAAQAAgACAAEAAwADAAQAAgADAAUAAQADAAEAAwADAAQAAwACAAEAAgADAAUAAwADAAIAAQACAAIAAQACAAIAAwACAAIAAgACAAEAAwADAAQAAgADAAUAAQADAAQAAgADAAQAAgACAAIAAgACAAEAAgADAAQAAgACAAIAAQACAAIAAgACAAEAAwACAAUAAQADAAQAAgADAAIAAwADAAIAAQACAAEAAwACAAEAAwACAAUAAQACAAQAAgADAAQAAgADAAQAAwACAAEAAgACAAEAAwACAAEAAwACAAUAAgADAAQAAwADAAIAAQACAAEAAgACAAUAAgACAAIAAQACAAIAAQACAAIAAQADAAIAAwACAAEAAgADAAUAAwADAAIAAQACAAIAAQACAAQAAwACAAEAAgADAAIAAQADAAIAAwADAAIAAwACAAIAAwACAAEAAwACAAEAAwACAAQAAgACAAIAAgACAAEAAgADAAIAAQACAAIAAgACAAEAAgADAAUAAgACAAEAAgACAAEAAwADAAIAAgACAAIAAgACAAEAAwACAAQAAgACAAQAAgACAAEAAgACAAQAAwADAAIAAQADAAEAAgADAAEAAQACAAQAAQACAAEAAwABAAIAAQACAAEAAwACAAQAAQACAAEAAgACAAIAAQACAAEAAgADAAEAAwABAAQAAgACAAEAAgACAAEAAwADAAIAAQADAAEAAgACAAEAAgACAAQAAgACAAEAAgACAAQAAgACAAEAAgACAAEAAwACAAQAAQACAAEAAwACAAIAAQACAAEAAwACAAQAAgACAAEAAgACAAIAAQACAAQAAwACAAEAAgACAAEAAgACAAIAAQACAAQAAwACAAEAAwACAAEAAQACAAQAAwACAAEAAgACAAQAAgADAAIAAQACAAEAAwADAAIAAgACAAEAAwACAAEAAwACAAIAAQADAAEAAgACAAEAAQACAAIAAQACAAEAAwACAAEAAwACAAEAAwADAAEAAgADAAUAAwACAAIAAQADAAIAAwADAAIAAQACAAQAAwACAAQAAgADAAUAAwACAAIAAQACAAEAAwADAAEAAwACAAQAAwACAAEAAgACAAQAAgADAAEAAgACAAQAAwACAAEAAwACAAEAAQACAAQAAwADAAEAAwACAAEAAQACAAQAAwACAAEAAwACAAEAAwACAAQAAwACAAEAAwACAAQAAwACAAQAAwACAAQAAwADAAEAAgACAAEAAgACAAEAAwACAAUAAgACAAQAAwACAAEAAgACAAIAAQACAAIAAgACAAEAAgACAAEAAwACAAIAAQACAAIAAQACAAEAAQACAAIAAQACAAEAAgACAAEAAwACAAIAAQACAAEAAwACAAEAAwADAAEAAwACAAUAAwADAAIAAQADAAEAAgACAAEAAwACAAIAAQACAAEAAwACAAQAAwACAAEAAgACAAQAAgADAAIAAQACAAEAAwADAAIAAgACAAEAAwACAAEAAwADAAEAAgACAAEAAgACAAQAAwADAAIAAQACAAEAAwACAAIAAQACAAEAAwADAAQAAgACAAIAAQACAAEAAwACAAQAAwADAAEAAwACAAEAAwACAAUAAgACAAQAAwACAAEAAgACAAEAAwADAAIAAQACAAIAAQACAAIAAQACAAIAAgACAAEAAwADAAQAAwACAAQAAwACAAQAAgADAAIAAQACAAEAAwACAAEAAgADAAQAAwACAAQAAgACAAEAAgACAAEAAwACAAUAAgACAAQAAwACAAQAAgADAAQAAwACAAEAAgACAAQAAwACAAEAAgACAAEAAwACAAUAAgACAAQAAwADAAQAAgADAAIAAQACAAEAAgACAAEAAgADAAUAAgACAAQAAgADAAIAAQACAAEAAgACAAQAAgACAAEAAgACAAQAAwADAAIAAQACAAEAAgACAAUAAwACAAIAAQACAAIAAQACAAIAAgACAAEAAwADAAQAAgACAAQAAwACAAQAAwACAAEAAgACAAEAAgACAAEAAwACAAQAAwADAAQAAwADAAEAAwACAAEAAgADAAEAAwACAAEAAgADAAUAAwACAAEAAgACAAEAAwADAAIAAQACAAIAAQACAAIAAQACAAEAAgACAAEAAwACAAUAAwACAAIAAQACAAQAAwACAAIAAQACAAEAAwADAAEAAwACAAEAAwACAAEAAgACAAEAAgACAAIAAQACAAEAAwACAAIAAQACAAIAAQACAAEAAwACAAIAAQACAAEAAwACAAEAAwACAAQAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAIAAQACAAQAAwACAAQAAwADAAEAAgACAAEAAwACAAUAAgACAAEAAwACAAIAAQACAAEAAwADAAEAAwADAAIAAQACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAIAAQACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAUAAgACAAEAAwACAAEAAwACAAEAAwADAAIAAQACAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAIAAQACAAEAAwACAAEAAwACAAIAAQACAAEAAwACAAEAAwACAAEAAwADAAIAAQACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAIAAQACAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAUAAgACAAIAAQACAAEAAwADAAEAAwADAAIAAQACAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAIAAQACAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAIAAQACAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAIAAQACAAEAAwADAAEAAwADAAEAAwADAAIAAQACAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAIAAQACAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAUAAwACAAEAAwACAAIAAQACAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAUAAgACAAEAAgACAAEAAwACAAEAAwACAAEAAwADAAIAAQACAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAUAAgACAAEAAgACAAEAAwADAAEAAwACAAIAAQACAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAUAAgACAAIAAQACAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAUAAgACAAIAAQACAAEAAwADAAEAAwADAAIAAQACAAEAAwACAAEAAwADAAUAAgACAAEAAgACAAEAAwADAAEAAwADAAEAAwACAAIAAQACAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAUAAgACAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAIAAQACAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAIAAQACAAEAAwADAAIAAQACAAEAAwADAAIAAQACAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAUAAgACAAEAAwACAAEAAwADAAEAAwADAAIAAQACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAUAAgACAAEAAwACAAIAAQACAAEAAwACAAEAAwACAAEAAwADAAIAAQACAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAIAAQACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAIAAQACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAUAAgACAAIAAQACAAEAAwADAAEAAwACAAIAAQACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAUAAgACAAEAAwACAAEAAwADAAEAAwADAAIAAQACAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAIAAQACAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAIAAQACAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAUAAgACAAEAAwACAAIAAQACAAEAAwACAAEAAwADAAIAAQACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAIAAQACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwACAAEAAwADAAEAAwACAAEAAwADAAEAAwADAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAAwACAAEAA...';
+          var obj = JSON.parse(font);
+          jsPDFAPI.events.push(['addFonts', function (pdf) {
+              pdf.addFileToVFS(obj.filename, obj.font);
+              pdf.addFont(obj.filename, obj.fontname, obj.fontstyle);
+          }]);
+    })(jsPDF.API);
+    </script>
+    <script type="module">
+      import React, { useState, useMemo, useCallback, useRef, useEffect } from "https://esm.sh/react@^19.1.0";
+      import ReactDOM from "https://esm.sh/react-dom@^19.1.0/client";
+
+      // --- START OF services/pdfService.ts ---
+      
+      const FONT_NAME = 'latha';
+
+      const commonStyles = {
+          font: FONT_NAME,
+          fontStyle: 'normal',
+      };
+
+      const commonHeadStyles = {
+          fillColor: [211, 47, 47], // DMK Red
+          textColor: [255, 255, 255],
+          font: FONT_NAME,
+          fontStyle: 'normal',
+      };
+
+      const calculateTotals_pdf = (entries) => {
+          return entries.reduce(
+              (acc, entry) => {
+                  acc.familiesMet += entry.familiesMet;
+                  acc.totalMembers += entry.membersAdded;
+                  return acc;
+              },
+              { familiesMet: 0, totalMembers: 0 }
+          );
+      };
+
+      const addPageNumbers = (doc) => {
+          const pageCount = doc.internal.getNumberOfPages();
+          
+          const lastFontName = doc.internal.fontName;
+          const lastFontStyle = doc.internal.fontStyle;
+          const lastFontSize = doc.internal.getFontSize();
+
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(10);
+
+          for (let i = 1; i <= pageCount; i++) {
+              doc.setPage(i);
+              doc.text('Page ' + String(i) + ' of ' + String(pageCount), doc.internal.pageSize.width / 2, doc.internal.pageSize.height - 10, { align: 'center' });
+          }
+          
+          doc.setFont(lastFontName, lastFontStyle);
+          doc.setFontSize(lastFontSize);
+      };
+
+      const generatePdf = (booths, supervisors) => {
+        const doc = new window.jsPDF();
+        const supervisorMap = new Map(supervisors.map(s => [s.id, s]));
+
+        doc.setFont(FONT_NAME);
+        doc.setFontSize(18);
+        doc.text('DMK Membership Drive Report - Hosur', 14, 22);
+        doc.setFontSize(11);
+        doc.setTextColor(100);
+
+        const tableColumn = ["Booth No", "Digital Agent Name", "Union / Area", "Supervisor", "Families Met", "Total Members"];
+        const tableRows = [];
+
+        booths.forEach(booth => {
+          const supervisor = booth.supervisorId ? supervisorMap.get(booth.supervisorId) : null;
+          const totals = calculateTotals_pdf(booth.dailyEntries);
+          const boothData = [
+            booth.id,
+            booth.agent?.name || 'Not Assigned',
+            booth.agent?.union || '-',
+            supervisor?.name || 'Not Assigned',
+            totals.familiesMet,
+            totals.totalMembers,
+          ];
+          tableRows.push(boothData);
+        });
+        
+        doc.autoTable(tableColumn, tableRows, {
+          startY: 30,
+          styles: commonStyles,
+          headerStyles: commonHeadStyles,
+          columnStyles: {
+            0: { columnWidth: 20 },
+            1: { columnWidth: 45 },
+            2: { columnWidth: 45 },
+            3: { columnWidth: 45 },
+          }
+        });
+
+        addPageNumbers(doc);
+        doc.save('DMK_Hosur_Booth_Report.pdf');
+      };
+
+      const generateSupervisorPdf = (booths, supervisor) => {
+        const doc = new window.jsPDF();
+
+        doc.setFont(FONT_NAME);
+        doc.setFontSize(18);
+        doc.text(`Supervisor Report: ${supervisor.name}`, 14, 22);
+        doc.setFontSize(12);
+        doc.setTextColor(100);
+        doc.text(`Phone: ${supervisor.phone}`, 14, 30);
+        
+        const tableColumn = ["Booth No", "Digital Agent", "Families Met", "Total Members"];
+        const tableRows = [];
+
+        booths.forEach(booth => {
+          const totals = calculateTotals_pdf(booth.dailyEntries);
+          const boothData = [
+            booth.id,
+            booth.agent?.name || 'Not Assigned',
+            totals.familiesMet,
+            totals.totalMembers,
+          ];
+          tableRows.push(boothData);
+        });
+
+        doc.autoTable(tableColumn, tableRows, {
+          startY: 40,
+          styles: commonStyles,
+          headerStyles: commonHeadStyles,
+          didDrawPage: (data) => {
+            // This is a more robust way to add page numbers with autotable
+          }
+        });
+        
+        // Call this after autoTable to ensure it's drawn on all pages
+        addPageNumbers(doc);
+        doc.save(`Supervisor_Report_${supervisor.name.replace(/ /g, '_')}.pdf`);
+      };
+      
+      // --- START OF services/excelService.ts ---
+      
+      const EXCEL_TYPE_XLSX = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-g';
+      const EXCEL_EXTENSION_XLSX = '.xlsx';
+
+      const calculateTotals_excel = (entries) => {
+          return entries.reduce(
+              (acc, entry) => {
+                  acc.familiesMet += entry.familiesMet;
+                  acc.totalMembers += entry.membersAdded;
+                  return acc;
+              },
+              { familiesMet: 0, totalMembers: 0 }
+          );
+      };
+
+      const exportToExcel = (booths, fileName) => {
+        const excelHeaders = [
+            'சாவடி எண்',
+            'டிஜிட்டல் ஏஜென்ட் பெயர்',
+            'ஏஜென்ட் தொலைபேசி',
+            'வாக்காளர் அட்டை எண்',
+            'கழக ஒன்றியம் / பகுதி',
+            'சந்தித்த குடும்பங்கள்',
+            'மொத்த உறுப்பினர்கள்'
+        ];
+        const dataToExport = booths.map(booth => {
+          const totals = calculateTotals_excel(booth.dailyEntries);
+          return {
+            'சாவடி எண்': booth.id,
+            'டிஜிட்டல் ஏஜென்ட் பெயர்': booth.agent?.name || '',
+            'ஏஜென்ட் தொலைபேசி': booth.agent?.phone || '',
+            'வாக்காளர் அட்டை எண்': booth.agent?.voterId || '',
+            'கழக ஒன்றியம் / பகுதி': booth.agent?.union || '',
+            'சந்தித்த குடும்பங்கள்': totals.familiesMet,
+            'மொத்த உறுப்பினர்கள்': totals.totalMembers,
+          };
+        });
+
+        const worksheet = XLSX.utils.json_to_sheet(dataToExport, { header: excelHeaders });
+        const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const data = new Blob([excelBuffer], { type: EXCEL_TYPE_XLSX });
+        
+        const url = URL.createObjectURL(data);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${fileName}${EXCEL_EXTENSION_XLSX}`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      };
+
+      const exportReportToExcel = (booths, supervisors) => {
+        const supervisorMap = new Map(supervisors.map(s => [s.id, s]));
+
+        const dataToExport = booths.map(booth => {
+          const supervisor = booth.supervisorId ? supervisorMap.get(booth.supervisorId) : null;
+          const totals = calculateTotals_excel(booth.dailyEntries);
+          return {
+            'சாவடி எண்': booth.id,
+            'டிஜிட்டல் ஏஜென்ட் பெயர்': booth.agent?.name || 'Not Assigned',
+            'தொலைபேசி எண்': booth.agent?.phone || '-',
+            'வாக்காளர் அட்டை எண்': booth.agent?.voterId || '-',
+            'கழக ஒன்றியம் / பகுதி': booth.agent?.union || '-',
+            'மேற்பார்வையாளர்': supervisor?.name || 'Not Assigned',
+            'சந்தித்த குடும்பங்கள்': totals.familiesMet,
+            'மொத்த உறுப்பினர்கள்': totals.totalMembers,
+          };
+        });
+
+        const reportHeaders = [
+          'சாவடி எண்', 
+          'டிஜிட்டல் ஏஜென்ட் பெயர்', 
+          'தொலைபேசி எண்',
+          'வாக்காளர் அட்டை எண்',
+          'கழக ஒன்றியம் / பகுதி', 
+          'மேற்பார்வையாளர்', 
+          'சந்தித்த குடும்பங்கள்', 
+          'மொத்த உறுப்பினர்கள்'
+        ];
+
+        const worksheet = XLSX.utils.json_to_sheet(dataToExport, { header: reportHeaders });
+        const workbook = { Sheets: { 'Report': worksheet }, SheetNames: ['Report'] };
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const data = new Blob([excelBuffer], { type: EXCEL_TYPE_XLSX });
+        
+        const url = URL.createObjectURL(data);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `DMK_Membership_Drive_Report${EXCEL_EXTENSION_XLSX}`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      };
+
+      const exportLeaderboardToExcel = (booths) => {
+          const agentPerformance = {};
+          booths.forEach(booth => {
+              if (booth.agent?.name && booth.agent.union) {
+                  const totals = calculateTotals_excel(booth.dailyEntries);
+                  const agentKey = `${booth.agent.name}|${booth.agent.phone}`;
+                  if (!agentPerformance[agentKey]) {
+                      agentPerformance[agentKey] = { name: booth.agent.name, union: booth.agent.union, totalMembers: 0 };
+                  }
+                  agentPerformance[agentKey].totalMembers += totals.totalMembers;
+              }
+          });
+
+          const unionPerformance = {};
+          Object.values(agentPerformance).forEach(agent => {
+              if (agent.totalMembers > 0) {
+                  if (!unionPerformance[agent.union]) {
+                      unionPerformance[agent.union] = [];
+                  }
+                  unionPerformance[agent.union].push({ name: agent.name, totalMembers: agent.totalMembers });
+              }
+          });
+
+          const dataToExport = [];
+          Object.keys(unionPerformance).sort().forEach(union => {
+              const sortedAgents = unionPerformance[union]
+                  .sort((a, b) => b.totalMembers - a.totalMembers);
+              
+              sortedAgents.forEach((agent, index) => {
+                  dataToExport.push({
+                      'கழக ஒன்றியம் / பகுதி': union,
+                      'தரம்': index + 1,
+                      'முகவர் பெயர்': agent.name,
+                      'மொத்த உறுப்பினர்கள்': agent.totalMembers,
+                  });
+              });
+          });
+
+          if (dataToExport.length === 0) {
+              alert('ஏற்றுமதி செய்ய லீடர்போர்டு தரவுகள் எதுவும் இல்லை.');
+              return;
+          }
+
+          const reportHeaders = [
+              'கழக ஒன்றியம் / பகுதி',
+              'தரம்',
+              'முகவர் பெயர்',
+              'மொத்த உறுப்பினர்கள்'
+          ];
+
+          const worksheet = XLSX.utils.json_to_sheet(dataToExport, { header: reportHeaders });
+          const workbook = { Sheets: { 'Leaderboard': worksheet }, SheetNames: ['Leaderboard'] };
+          const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+          const data = new Blob([excelBuffer], { type: EXCEL_TYPE_XLSX });
+          
+          const url = URL.createObjectURL(data);
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', `DMK_Leaderboard_Report${EXCEL_EXTENSION_XLSX}`);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+      };
+      
+      const exportSupervisorReportToExcel = (booths, supervisor) => {
+        const dataToExport = booths.map(booth => {
+          const totals = calculateTotals_excel(booth.dailyEntries);
+          return {
+            'சாவடி எண்': booth.id,
+            'டிஜிட்டல் ஏஜென்ட்': booth.agent?.name || 'Not Assigned',
+            'சந்தித்த குடும்பங்கள்': totals.familiesMet,
+            'மொத்த உறுப்பினர்கள்': totals.totalMembers,
+          };
+        });
+
+        const reportHeaders = [
+          'சாவடி எண்', 
+          'டிஜிட்டல் ஏஜென்ட்', 
+          'சந்தித்த குடும்பங்கள்', 
+          'மொத்த உறுப்பினர்கள்'
+        ];
+        
+        if (dataToExport.length === 0) {
+            alert('ஏற்றுமதி செய்ய தரவுகள் எதுவும் இல்லை.');
+            return;
+        }
+
+        const worksheet = XLSX.utils.json_to_sheet(dataToExport, { header: reportHeaders });
+        const workbook = { Sheets: { 'Report': worksheet }, SheetNames: ['Report'] };
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const data = new Blob([excelBuffer], { type: EXCEL_TYPE_XLSX });
+        
+        const fileName = `Supervisor_Report_${supervisor.name.replace(/ /g, '_')}${EXCEL_EXTENSION_XLSX}`;
+        
+        const url = URL.createObjectURL(data);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      };
+
+      const importFromExcel = (file, existingBooths) => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            try {
+              const data = event.target?.result;
+              const workbook = XLSX.read(data, { type: 'binary' });
+              const sheetName = workbook.SheetNames[0];
+              const worksheet = workbook.Sheets[sheetName];
+              const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+              if (jsonData.length === 0) {
+                  return reject(new Error('எக்செல் கோப்பு காலியாக உள்ளது அல்லது ஆதரிக்கப்படாத வடிவத்தில் உள்ளது.'));
+              }
+              
+              const firstRow = jsonData[0];
+              if (!('சாவடி எண்' in firstRow)) {
+                  return reject(new Error('எக்செல் கோப்பில் "சாவடி எண்" என்ற தலைப்பு இருக்க வேண்டும்.'));
+              }
+
+              const updatedBooths = [...existingBooths];
+              let updatedCount = 0;
+
+              jsonData.forEach(row => {
+                const boothId = parseInt(row['சாவடி எண்'], 10);
+                if (!isNaN(boothId)) {
+                  const boothIndex = updatedBooths.findIndex(b => b.id === boothId);
+                  if (boothIndex !== -1) {
+                    const agent = {
+                      name: String(row['டிஜிட்டல் ஏஜென்ட் பெயர்'] || ''),
+                      phone: String(row['ஏஜென்ட் தொலைபேசி'] || ''),
+                      voterId: String(row['வாக்காளர் அட்டை எண்'] || '').toUpperCase(),
+                      union: String(row['கழக ஒன்றியம் / பகுதி'] || ''),
+                    };
+                    if(agent.name) {
+                       updatedBooths[boothIndex] = { ...updatedBooths[boothIndex], agent };
+                       updatedCount++;
+                    }
+                  }
+                }
+              });
+              
+              if (updatedCount === 0) {
+                  reject(new Error('பதிவேற்ற சரியான தரவு எதுவும் கிடைக்கவில்லை. சாவடி எண்கள் மற்றும் நெடுவரிசை தலைப்புகளைச் சரிபார்க்கவும்.'));
+              } else {
+                  resolve(updatedBooths);
+              }
+
+            } catch (error) {
+              console.error("Error parsing Excel file:", error);
+              reject(new Error('எக்செல் கோப்பைப் படிப்பதில் அல்லது பாகுபடுத்துவதில் தோல்வி ஏற்பட்டது.'));
+            }
+          };
+          reader.onerror = (error) => reject(error);
+          reader.readAsBinaryString(file);
+        });
+      };
+      
+      // --- START OF App.tsx ---
+      
+      const TOTAL_BOOTHS = 388;
+
+      const initialBooths = Array.from({ length: TOTAL_BOOTHS }, (_, i) => ({
+        id: i + 1,
+        agent: null,
+        supervisorId: null,
+        dailyEntries: [],
+      }));
+
+      const unionOptions = [
+          'ஓசூர் மேற்கு பகுதி',
+          'ஓசூர் வடக்கு பகுதி',
+          'ஓசூர் கிழக்கு பகுதி',
+          'ஓசூர் தெற்கு பகுதி',
+          'ஓசூர் ஒன்றியம்',
+          'சூளகிரி வடக்கு ஒன்றியம்',
+      ];
+
+      const EditIcon = () => (
+        React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", className: "h-5 w-5", viewBox: "0 0 20 20", fill: "currentColor" },
+          React.createElement("path", { d: "M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" })
+        )
+      );
+
+      const AddUserIcon = () => (
+          React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", className: "h-6 w-6", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2 },
+              React.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" })
+          )
+      );
+
+      const ReportIcon = () => (
+          React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", className: "h-5 w-5", viewBox: "0 0 20 20", fill: "currentColor" },
+              React.createElement("path", { d: "M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" }),
+              React.createElement("path", { d: "M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" })
+          )
+      );
+
+      const ExportIcon = () => (
+          React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", className: "h-5 w-5", viewBox: "0 0 20 20", fill: "currentColor" },
+              React.createElement("path", { fillRule: "evenodd", d: "M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z", clipRule: "evenodd" })
+          )
+      );
+
+      const UploadIcon = () => (
+        React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", className: "h-5 w-5", viewBox: "0 0 20 20", fill: "currentColor" },
+          React.createElement("path", { fillRule: "evenodd", d: "M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z", clipRule: "evenodd" })
+        )
+      );
+
+      const LogoutIcon = () => (
+          React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", className: "h-5 w-5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2 },
+              React.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" })
+          )
+      );
+
+      const calculateTotals = (entries) => {
+          return entries.reduce(
+              (acc, entry) => {
+                  acc.familiesMet += entry.familiesMet;
+                  acc.totalMembers += entry.membersAdded;
+                  return acc;
+              },
+              { familiesMet: 0, totalMembers: 0 }
+          );
+      };
+
+      const getTodayDateString = () => {
+          const today = new Date();
+          const year = today.getFullYear();
+          const month = String(today.getMonth() + 1).padStart(2, '0');
+          const day = String(today.getDate()).padStart(2, '0');
+          return `${year}-${month}-${day}`;
+      };
+
+      const authenticate = (username, password) => {
+          if (username === 'admin' && password === 'hsr2587') {
+              return { username: 'admin', role: 'admin' };
+          }
+          const teamMatch = username.match(/^team([1-9]|[1-9][0-9])$/);
+          if (teamMatch && password === username) {
+              return { username, role: 'team' };
+          }
+          return null;
+      };
+
+      const Modal = ({ isOpen, onClose, children, title }) => {
+          if (!isOpen) return null;
+
+          return (
+              React.createElement("div", { className: "fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4" },
+                  React.createElement("div", { className: "bg-white rounded-lg shadow-xl w-full max-w-lg flex flex-col max-h-[90vh]" },
+                      React.createElement("div", { className: "p-4 border-b flex justify-between items-center flex-shrink-0" },
+                          React.createElement("h2", { className: "text-xl font-bold text-gray-800" }, title),
+                          React.createElement("button", { onClick: onClose, className: "text-gray-500 hover:text-gray-800 text-3xl leading-none" }, "×")
+                      ),
+                      React.createElement("div", { className: "p-6 overflow-y-auto" },
+                          children
+                      )
+                  )
+              )
+          );
+      };
+
+      const LoginScreen = ({ onLogin }) => {
+          const [username, setUsername] = useState('');
+          const [password, setPassword] = useState('');
+          const [error, setError] = useState('');
+
+          const handleSubmit = (e) => {
+              e.preventDefault();
+              const user = authenticate(username, password);
+              if (user) {
+                  onLogin(user);
+              } else {
+                  setError('தவறான பயனர்பெயர் அல்லது கடவுச்சொல்.');
+              }
+          };
+
+          return (
+              React.createElement("div", { className: "bg-gray-100 min-h-screen flex items-center justify-center p-4", style: { fontFamily: "'Noto Sans Tamil', sans-serif" } },
+                  React.createElement("div", { className: "w-full max-w-sm bg-white rounded-xl shadow-lg p-8" },
+                       React.createElement("div", { className: "text-center mb-6" },
+                          React.createElement("h1", { className: "text-2xl font-bold text-gray-800" },
+                              React.createElement("span", { className: "text-red-700" }, "திமுக"), " உறுப்பினர் சேர்க்கை"
+                          ),
+                          React.createElement("p", { className: "text-gray-500" }, "ஓசூர் தொகுதி")
+                      ),
+                      React.createElement("form", { onSubmit: handleSubmit, className: "space-y-6" },
+                          React.createElement("div", null,
+                              React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "பயனர்பெயர்"),
+                              React.createElement("input", {
+                                  type: "text",
+                                  value: username,
+                                  onChange: (e) => setUsername(e.target.value),
+                                  className: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-red-500 focus:border-red-500",
+                                  required: true
+                              })
+                          ),
+                          React.createElement("div", null,
+                               React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "கடவுச்சொல்"),
+                              React.createElement("input", {
+                                  type: "password",
+                                  value: password,
+                                  onChange: (e) => setPassword(e.target.value),
+                                  className: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-red-500 focus:border-red-500",
+                                  required: true
+                              })
+                          ),
+                          error && React.createElement("p", { className: "text-red-600 text-sm text-center" }, error),
+                          React.createElement("div", null,
+                              React.createElement("button", { type: "submit", className: "w-full bg-red-700 text-white font-bold py-3 px-4 rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors" },
+                                  "உள்நுழை"
+                              )
+                          )
+                      )
+                  )
+              )
+          );
+      };
+
+      const Leaderboard = ({ booths }) => {
+          const leaderboardData = useMemo(() => {
+              const agentPerformance = {};
+              
+              booths.forEach(booth => {
+                  if (booth.agent?.name && booth.agent.union) {
+                      const agentKey = `${booth.agent.name}|${booth.agent.phone}`;
+                      if (!agentPerformance[agentKey]) {
+                          agentPerformance[agentKey] = {
+                              name: booth.agent.name,
+                              union: booth.agent.union,
+                              totalMembers: 0,
+                          };
+                      }
+                      const totals = calculateTotals(booth.dailyEntries);
+                      agentPerformance[agentKey].totalMembers += totals.totalMembers;
+                  }
+              });
+
+              const unionPerformance = {};
+              Object.values(agentPerformance).forEach(agent => {
+                  if (!unionPerformance[agent.union]) {
+                      unionPerformance[agent.union] = [];
+                  }
+                  unionPerformance[agent.union].push({ name: agent.name, totalMembers: agent.totalMembers });
+              });
+
+              const rankedData = [];
+              Object.keys(unionPerformance).sort().forEach(union => {
+                  const sortedAgents = unionPerformance[union]
+                      .filter(a => a.totalMembers > 0)
+                      .sort((a, b) => b.totalMembers - a.totalMembers);
+                  
+                  if (sortedAgents.length > 0) {
+                       rankedData.push({
+                          union: union,
+                          agents: sortedAgents.map((agent, index) => {
+                               let rank = index + 1;
+                               if (index === 0) rank = '🥇';
+                               if (index === 1) rank = '🥈';
+                               if (index === 2) rank = '🥉';
+                               return { ...agent, rank: rank }
+                          })
+                       });
+                  }
+              });
+
+              return rankedData;
+          }, [booths]);
+          
+          if (leaderboardData.length === 0) {
+              return (
+                  React.createElement("div", { className: "bg-white p-4 rounded-lg shadow mb-6" },
+                      React.createElement("h2", { className: "text-xl font-bold mb-4 text-gray-700" }, "பகுதி வாரியான முன்னிலை அறிக்கை"),
+                      React.createElement("p", { className: "text-center text-gray-500 py-4" }, "லீடர்போர்டைக் காட்ட முகவர் தரவுகள் இன்னும் சேர்க்கப்படவில்லை.")
+                  )
+              );
+          }
+
+          return (
+              React.createElement("div", { className: "bg-white p-4 rounded-lg shadow mb-6" },
+                  React.createElement("h2", { className: "text-xl font-bold mb-4 text-gray-700" }, "பகுதி வாரியான முன்னிலை அறிக்கை"),
+                  React.createElement("div", { className: "overflow-x-auto" },
+                      React.createElement("table", { className: "w-full text-sm text-left text-gray-600" },
+                          React.createElement("thead", { className: "text-xs text-white uppercase bg-gray-700" },
+                              React.createElement("tr", null,
+                                  React.createElement("th", { scope: "col", className: "px-4 py-3" }, "தரம்"),
+                                  React.createElement("th", { scope: "col", className: "px-6 py-3" }, "முகவர் பெயர்"),
+                                  React.createElement("th", { scope: "col", className: "px-6 py-3 text-center" }, "மொத்த உறுப்பினர்கள்")
+                              )
+                          ),
+                          React.createElement("tbody", null,
+                              leaderboardData.map(({ union, agents }) => (
+                                  React.createElement(React.Fragment, { key: union },
+                                      React.createElement("tr", { className: "bg-gray-200 sticky top-0" },
+                                          React.createElement("td", { colSpan: 3, className: "px-6 py-2 font-bold text-red-700" }, union)
+                                      ),
+                                      agents.map((agent, index) => (
+                                          React.createElement("tr", { key: `${union}-${agent.name}-${index}`, className: "bg-white border-b hover:bg-red-50" },
+                                              React.createElement("td", { className: "px-4 py-3 text-center text-xl w-16" }, agent.rank),
+                                              React.createElement("td", { className: "px-6 py-3 font-semibold text-gray-800" }, agent.name),
+                                              React.createElement("td", { className: "px-6 py-3 font-bold text-lg text-center w-48" }, agent.totalMembers)
+                                          )
+                                      ))
+                                  )
+                              ))
+                          )
+                      )
+                  )
+              )
+          );
+      };
+
+      function App() {
+          const [currentUser, setCurrentUser] = useState(null);
+          const [booths, setBooths] = useState(initialBooths);
+          const [supervisors, setSupervisors] = useState([]);
+          const [modal, setModal] = useState({ isOpen: false, type: 'agent', data: null });
+          const [searchTerm, setSearchTerm] = useState('');
+          const [importMessage, setImportMessage] = useState(null);
+          const fileInputRef = useRef(null);
+
+          useEffect(() => {
+              if (importMessage) {
+                  const timer = setTimeout(() => {
+                      setImportMessage(null);
+                  }, 4000);
+                  return () => clearTimeout(timer);
+              }
+          }, [importMessage]);
+
+          const boothsWithTotals = useMemo(() => {
+              return booths.map(booth => ({
+                  ...booth,
+                  ...calculateTotals(booth.dailyEntries)
+              }));
+          }, [booths]);
+
+          const handleAddSupervisor = (name, phone, username, assignedBoothIds) => {
+              const newSupervisor = { id: Date.now(), name, phone, username };
+              
+              setSupervisors(prev => [...prev, newSupervisor]);
+
+              setBooths(prevBooths => 
+                  prevBooths.map(booth => 
+                      assignedBoothIds.includes(booth.id) 
+                          ? { ...booth, supervisorId: newSupervisor.id } 
+                          : booth
+                  )
+              );
+              
+              setModal({ isOpen: false, type: 'supervisor', data: null });
+          };
+
+          const handleUpdateAgent = (boothId, agent) => {
+              setBooths(prev => prev.map(b => b.id === boothId ? { ...b, agent } : b));
+              setModal({ isOpen: false, type: 'agent', data: null });
+          };
+
+          const handleSaveDailyEntry = (boothId, date, newEntryData) => {
+              if (newEntryData.familiesMet === 0 && newEntryData.membersAdded === 0) {
+                  setModal({ isOpen: false, type: 'dailyReport', data: null });
+                  return;
+              }
+
+              setBooths(prevBooths => prevBooths.map(booth => {
+                  if (booth.id !== boothId) {
+                      return booth;
+                  }
+                  const existingEntryIndex = booth.dailyEntries.findIndex(e => e.date === date);
+                  let newEntries = [...booth.dailyEntries];
+
+                  if (existingEntryIndex > -1) {
+                      const existingEntry = newEntries[existingEntryIndex];
+                      newEntries[existingEntryIndex] = {
+                          ...existingEntry,
+                          familiesMet: existingEntry.familiesMet + newEntryData.familiesMet,
+                          membersAdded: existingEntry.membersAdded + newEntryData.membersAdded,
+                      };
+                  } else {
+                      newEntries.push({ date, ...newEntryData });
+                  }
+                  
+                  newEntries.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+                  return { ...booth, dailyEntries: newEntries };
+              }));
+              setModal({ isOpen: false, type: 'dailyReport', data: null });
+          };
+          
+          const handleExportClick = () => {
+              exportToExcel(booths, 'DMK_Hosur_Agent_List');
+          };
+          
+          const handleImportClick = () => {
+              fileInputRef.current?.click();
+          };
+
+          const handleFileImport = async (event) => {
+              const file = event.target.files?.[0];
+              if (!file) return;
+
+              setImportMessage(null);
+              try {
+                  const updatedBooths = await importFromExcel(file, booths);
+                  setBooths(updatedBooths);
+                  setImportMessage({ type: 'success', text: 'தரவுகள் வெற்றிகரமாக பதிவேற்றம் செய்யப்பட்டன.' });
+              } catch (error) {
+                  console.error(error);
+                  setImportMessage({ type: 'error', text: error.message });
+              }
+              
+              if(event.target) {
+                  event.target.value = '';
+              }
+          };
+          
+          const supervisorMap = useMemo(() => new Map(supervisors.map(s => [s.id, s])), [supervisors]);
+
+          const currentSupervisor = useMemo(() => {
+              if (currentUser?.role !== 'team') return null;
+              return supervisors.find(s => s.username === currentUser.username);
+          }, [currentUser, supervisors]);
+
+          const boothsForCurrentUser = useMemo(() => {
+              if (!currentUser) return [];
+              const sourceBooths = boothsWithTotals;
+
+              if (currentUser.role === 'admin') return sourceBooths;
+              
+              if (currentUser.role === 'team' && currentSupervisor) {
+                  return sourceBooths.filter(b => b.supervisorId === currentSupervisor.id);
+              }
+              return [];
+          }, [boothsWithTotals, currentUser, currentSupervisor]);
+
+          const filteredBooths = useMemo(() => {
+              const sourceBooths = boothsForCurrentUser;
+              if (!searchTerm) return sourceBooths;
+              const searchTermLower = searchTerm.toLowerCase();
+              return sourceBooths.filter(booth => {
+                  const supervisor = booth.supervisorId ? supervisorMap.get(booth.supervisorId) : null;
+                  return (
+                      booth.id.toString().includes(searchTerm) ||
+                      booth.agent?.name?.toLowerCase().includes(searchTermLower) ||
+                      booth.agent?.phone?.includes(searchTerm) ||
+                      booth.agent?.voterId?.toLowerCase().includes(searchTermLower) ||
+                      booth.agent?.union?.toLowerCase().includes(searchTermLower) ||
+                      supervisor?.name?.toLowerCase().includes(searchTermLower)
+                  );
+              });
+          }, [boothsForCurrentUser, searchTerm, supervisorMap]);
+          
+          const formatBoothList = (booths) => {
+              if (!booths || booths.length === 0) {
+                  return 'சாவடிகள்: இன்னும் ஒதுக்கப்படவில்லை';
+              }
+
+              const ids = booths.map(b => b.id).sort((a, b) => a - b);
+              const ranges = [];
+              let start = ids[0];
+              let end = ids[0];
+
+              for (let i = 1; i < ids.length; i++) {
+                  if (ids[i] === end + 1) {
+                      end = ids[i];
+                  } else {
+                      ranges.push(start === end ? `${start}` : `${start}-${end}`);
+                      start = ids[i];
+                      end = ids[i];
+                  }
+              }
+              ranges.push(start === end ? `${start}` : `${start}-${end}`);
+              
+              const result = ranges.join(', ');
+              return `சாவடிகள்: ${result}`;
+          };
+
+          const openAgentModal = (booth) => setModal({ isOpen: true, type: 'agent', data: booth });
+          const openSupervisorModal = () => {
+              const nextSupervisorUsername = `team${supervisors.length + 1}`;
+              setModal({ isOpen: true, type: 'supervisor', data: { nextUsername: nextSupervisorUsername } });
+          };
+          const openDailyReportModal = (booth) => setModal({ isOpen: true, type: 'dailyReport', data: booth });
+          const handleLogin = (user) => setCurrentUser(user);
+          const handleLogout = () => setCurrentUser(null);
+          
+          if (!currentUser) {
+              return React.createElement(LoginScreen, { onLogin: handleLogin });
+          }
+
+          const AgentForm = ({ booth, onClose }) => {
+              const [name, setName] = useState(booth.agent?.name || '');
+              const [phone, setPhone] = useState(booth.agent?.phone || '');
+              const [voterId, setVoterId] = useState(booth.agent?.voterId || '');
+              const [union, setUnion] = useState(booth.agent?.union || '');
+
+              const handleSubmit = (e) => {
+                  e.preventDefault();
+                  handleUpdateAgent(booth.id, { name, phone, voterId, union });
+              };
+
+              return (
+                  React.createElement("form", { onSubmit: handleSubmit, className: "space-y-4" },
+                      React.createElement("div", null,
+                          React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "பெயர்"),
+                          React.createElement("input", { type: "text", value: name, onChange: e => setName(e.target.value), className: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2", required: true })
+                      ),
+                      React.createElement("div", null,
+                          React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "தொலைபேசி எண்"),
+                          React.createElement("input", { type: "tel", value: phone, onChange: e => setPhone(e.target.value), className: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2", required: true })
+                      ),
+                      React.createElement("div", null,
+                          React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "வாக்காளர் அட்டை எண்"),
+                          React.createElement("input", { type: "text", value: voterId, onChange: e => setVoterId(e.target.value.toUpperCase()), className: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2", required: true })
+                      ),
+                      React.createElement("div", null,
+                          React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "கழக ஒன்றியம் / மாநகரம்"),
+                          React.createElement("select", {
+                              value: union,
+                              onChange: e => setUnion(e.target.value),
+                              className: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-white",
+                              required: true
+                          },
+                              React.createElement("option", { value: "", disabled: true }, "தேர்ந்தெடுக்கவும்"),
+                              unionOptions.map(opt => React.createElement("option", { key: opt, value: opt }, opt)))
+                      ),
+                      React.createElement("div", { className: "flex justify-end space-x-3 pt-4" },
+                          React.createElement("button", { type: "button", onClick: onClose, className: "bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300" }, "ரத்து செய்"),
+                          React.createElement("button", { type: "submit", className: "bg-red-700 text-white px-4 py-2 rounded-md hover:bg-red-800" }, "சேமி")
+                      )
+                  )
+              );
+          };
+
+          const SupervisorForm = ({ onClose, onAddSupervisor, allBooths, nextUsername }) => {
+              const [name, setName] = useState('');
+              const [phone, setPhone] = useState('');
+              const [selectedBooths, setSelectedBooths] = useState([]);
+              const [error, setError] = useState('');
+
+              const handleBoothToggle = (boothId) => {
+                  setSelectedBooths(prev =>
+                      prev.includes(boothId) ? prev.filter(id => id !== boothId) : [...prev, boothId]
+                  );
+              };
+
+              const handleSubmit = (e) => {
+                  e.preventDefault();
+                  if (selectedBooths.length === 0) {
+                      setError('குறைந்தது ஒரு சாவடியையாவது தேர்ந்தெடுக்கவும்.');
+                      return;
+                  }
+                  setError('');
+                  onAddSupervisor(name, phone, nextUsername, selectedBooths);
+              };
+
+              return (
+                  React.createElement("form", { onSubmit: handleSubmit, className: "space-y-4" },
+                      React.createElement("div", null,
+                          React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "ஒதுக்கப்படும் பயனர்பெயர் (Login ID)"),
+                          React.createElement("p", { className: "mt-1 block w-full bg-gray-100 rounded-md p-2 font-mono text-gray-800" }, nextUsername)
+                      ),
+                      React.createElement("div", null,
+                          React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "பெயர்"),
+                          React.createElement("input", { type: "text", value: name, onChange: e => setName(e.target.value), className: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2", required: true })
+                      ),
+                      React.createElement("div", null,
+                          React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "தொலைபேசி எண்"),
+                          React.createElement("input", { type: "tel", value: phone, onChange: e => setPhone(e.target.value), className: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2", required: true })
+                      ),
+                      React.createElement("div", { className: "space-y-2" },
+                          React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "சாவடி ஒதுக்கீடு"),
+                          React.createElement("p", { className: "text-xs text-gray-500" }, "இந்த மேற்பார்வையாளருக்கு ஒதுக்க சாவடிகளைத் தேர்ந்தெடுக்கவும். ஏற்கனவே ஒதுக்கப்பட்டவை சாம்பல் நிறத்தில் காட்டப்படும்."),
+                          React.createElement("div", { className: "max-h-60 overflow-y-auto border border-gray-200 rounded-md p-2 grid grid-cols-5 sm:grid-cols-8 gap-2" },
+                              allBooths.map(booth => {
+                                  const isAssigned = booth.supervisorId !== null;
+                                  const isSelected = selectedBooths.includes(booth.id);
+                                  return (
+                                      React.createElement("button", {
+                                          type: "button",
+                                          key: booth.id,
+                                          disabled: isAssigned,
+                                          onClick: () => !isAssigned && handleBoothToggle(booth.id),
+                                          className: `p-2 rounded text-xs text-center border transition-colors
+                                              ${isAssigned ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : ''}
+                                              ${!isAssigned && isSelected ? 'bg-red-700 text-white border-red-700 font-bold' : ''}
+                                              ${!isAssigned && !isSelected ? 'bg-white hover:bg-red-50 border-gray-300' : ''}
+                                          `
+                                      },
+                                          booth.id
+                                      )
+                                  );
+                              })
+                          )
+                      ),
+
+                      error && React.createElement("p", { className: "text-red-600 text-sm" }, error),
+                      
+                      React.createElement("div", { className: "flex justify-end space-x-3 pt-4" },
+                          React.createElement("button", { type: "button", onClick: onClose, className: "bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300" }, "ரத்து செய்"),
+                          React.createElement("button", { type: "submit", className: "bg-red-700 text-white px-4 py-2 rounded-md hover:bg-red-800" }, "சேமி")
+                      )
+                  )
+              );
+          };
+
+          const DailyReportModal = ({ booth, onClose, onSave }) => {
+              const [date, setDate] = useState(getTodayDateString());
+              const [newFamiliesMet, setNewFamiliesMet] = useState(0);
+              const [newMembersAdded, setNewMembersAdded] = useState(0);
+
+              const existingEntryForDate = useMemo(() => {
+                  return booth.dailyEntries.find(e => e.date === date);
+              }, [date, booth.dailyEntries]);
+
+              const handleSubmit = (e) => {
+                  e.preventDefault();
+                  onSave(booth.id, date, { familiesMet: Number(newFamiliesMet), membersAdded: Number(newMembersAdded) });
+              };
+
+              return (
+                   React.createElement("form", { onSubmit: handleSubmit, className: "space-y-4" },
+                      React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4" },
+                           React.createElement("div", null,
+                              React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "தேதி"),
+                              React.createElement("input", { type: "date", value: date, onChange: e => setDate(e.target.value), className: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2", required: true })
+                          ),
+                          React.createElement("div", null,
+                              React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "மொத்த உறுப்பினர்கள் (இதுவரை)"),
+                              React.createElement("p", { className: "mt-1 block w-full bg-gray-100 rounded-md p-2 text-lg font-bold text-center" }, booth.totalMembers)
+                          )
+                      ),
+
+                      React.createElement("div", { className: "bg-blue-50 p-3 rounded-lg border border-blue-200" },
+                          React.createElement("h4", { className: "text-md font-semibold text-blue-800 mb-2" }, "தேர்ந்தெடுக்கப்பட்ட தேதியில் ஏற்கனவே உள்ளவை"),
+                          React.createElement("div", { className: "flex justify-around text-center" },
+                              React.createElement("div", null,
+                                  React.createElement("p", { className: "text-xs text-gray-600" }, "சந்தித்த குடும்பங்கள்"),
+                                  React.createElement("p", { className: "font-bold text-lg text-blue-700" }, existingEntryForDate?.familiesMet || 0)
+                              ),
+                              React.createElement("div", null,
+                                  React.createElement("p", { className: "text-xs text-gray-600" }, "சேர்த்த உறுப்பினர்கள்"),
+                                  React.createElement("p", { className: "font-bold text-lg text-blue-700" }, existingEntryForDate?.membersAdded || 0)
+                              )
+                          )
+                      ),
+
+                      React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4 pt-2" },
+                          React.createElement("div", null,
+                              React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "புதிதாக சந்தித்த குடும்பங்கள்"),
+                              React.createElement("input", { type: "number", min: "0", value: newFamiliesMet, onChange: e => setNewFamiliesMet(Number(e.target.value)), className: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-center" })
+                          ),
+                          React.createElement("div", null,
+                              React.createElement("label", { className: "block text-sm font-medium text-gray-700" }, "புதிதாக சேர்த்த உறுப்பினர்கள்"),
+                              React.createElement("input", { type: "number", min: "0", value: newMembersAdded, onChange: e => setNewMembersAdded(Number(e.target.value)), className: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-center" })
+                          )
+                      ),
+                      
+                      React.createElement("div", { className: "pt-4" },
+                          React.createElement("h4", { className: "text-md font-semibold text-gray-700 border-b pb-2 mb-2" }, "முந்தைய பதிவுகள்"),
+                          React.createElement("div", { className: "max-h-32 overflow-y-auto" },
+                              booth.dailyEntries.length > 0 ? (
+                                   React.createElement("ul", { className: "divide-y divide-gray-200" },
+                                      booth.dailyEntries.map(entry => (
+                                          React.createElement("li", { key: entry.date, className: "py-2 flex justify-between items-center text-sm" },
+                                              React.createElement("span", { className: "font-semibold text-gray-800" }, new Date(entry.date).toLocaleDateString('ta-IN')),
+                                              React.createElement("div", { className: "flex gap-4 text-right" },
+                                                  React.createElement("span", null, "கு: ", React.createElement("span", { className: "font-bold" }, entry.familiesMet)),
+                                                  React.createElement("span", null, "உ: ", React.createElement("span", { className: "font-bold" }, entry.membersAdded))
+                                              )
+                                          )
+                                      ))
+                                  )
+                              ) : (
+                                  React.createElement("p", { className: "text-center text-gray-500 py-4" }, "பதிவுகள் எதுவும் இல்லை.")
+                              )
+                          )
+                      ),
+                      React.createElement("div", { className: "flex justify-end space-x-3 pt-4 border-t" },
+                          React.createElement("button", { type: "button", onClick: onClose, className: "bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300" }, "ரத்து செய்"),
+                          React.createElement("button", { type: "submit", className: "bg-red-700 text-white px-4 py-2 rounded-md hover:bg-red-800" }, "சேமி")
+                      )
+                  )
+              );
+          };
+
+          const BoothPerformanceChart = ({ boothsToShow }) => {
+              const sortedBooths = useMemo(() => 
+                  [...boothsToShow].sort((a, b) => a.id - b.id),
+              [boothsToShow]);
+
+              const maxMembers = useMemo(() => 
+                  Math.max(10, ...sortedBooths.map(b => b.totalMembers)), 
+              [sortedBooths]);
+
+              if (sortedBooths.length === 0) {
+                  return React.createElement("p", { className: "text-center text-gray-500 py-4" }, "விவரங்களைக் காட்ட சாவடிகள் ஒதுக்கப்படவில்லை.");
+              }
+
+              return (
+                  React.createElement("div", { className: "w-full h-64 bg-gray-50 p-4 rounded-lg flex gap-1 items-end border overflow-x-auto" },
+                      sortedBooths.map(booth => (
+                          React.createElement("div", { key: booth.id, className: "group relative flex-shrink-0 flex flex-col items-center justify-end", style: {width: '2.5rem'} },
+                              React.createElement("div", { 
+                                  className: "w-full bg-red-300 hover:bg-red-500 rounded-t-md transition-all duration-300", 
+                                  style: { height: `${(booth.totalMembers / maxMembers) * 100}%` }
+                              }),
+                              React.createElement("div", { className: "absolute -top-6 hidden group-hover:block bg-black text-white text-xs rounded py-1 px-2" },
+                                 `${booth.id}: ${booth.totalMembers}`
+                              ),
+                               React.createElement("p", { className: "text-xs font-semibold text-gray-600 mt-1" }, booth.id)
+                          )
+                      ))
+                  )
+              );
+          };
+
+          return (
+              React.createElement("div", { className: "bg-gray-100 min-h-screen", style: { fontFamily: "'Noto Sans Tamil', sans-serif" } },
+                  React.createElement("header", { className: "bg-white shadow-md sticky top-0 z-10" },
+                      React.createElement("div", { className: "container mx-auto px-4 py-3 flex justify-between items-center" },
+                          React.createElement("h1", { className: "text-xl sm:text-2xl font-bold text-gray-800" },
+                              React.createElement("span", { className: "text-red-700" }, "திமுக"), " உறுப்பினர் சேர்க்கை"
+                          ),
+                           React.createElement("div", { className: "flex flex-wrap justify-end items-center gap-2 sm:gap-3" },
+                              currentUser.role === 'admin' && (
+                                 React.createElement(React.Fragment, null,
+                                  React.createElement("input", {
+                                      type: "file",
+                                      ref: fileInputRef,
+                                      onChange: handleFileImport,
+                                      className: "hidden",
+                                      accept: ".xlsx, .xls"
+                                  }),
+                                  React.createElement("button", { onClick: handleImportClick, title: "தரவை இறக்கு", className: "bg-blue-600 text-white font-bold p-2 sm:px-3 rounded-lg shadow hover:bg-blue-700 flex items-center transition-colors" },
+                                      React.createElement(UploadIcon, null),
+                                      React.createElement("span", { className: "hidden sm:inline ml-2" }, "தரவை இறக்கு")
+                                  ),
+                                  React.createElement("button", { onClick: handleExportClick, title: "தரவை ஏற்று", className: "bg-teal-600 text-white font-bold p-2 sm:px-3 rounded-lg shadow hover:bg-teal-700 flex items-center transition-colors" },
+                                      React.createElement(ExportIcon, null),
+                                      React.createElement("span", { className: "hidden sm:inline ml-2" }, "தரவை ஏற்று")
+                                  ),
+                                   React.createElement("button", { onClick: () => generatePdf(booths, supervisors), title: "PDF அறிக்கை", className: "bg-green-600 text-white font-bold p-2 sm:px-3 rounded-lg shadow hover:bg-green-700 flex items-center transition-colors" },
+                                      React.createElement(ExportIcon, null),
+                                      React.createElement("span", { className: "hidden sm:inline ml-2" }, "PDF அறிக்கை")
+                                  ),
+                                   React.createElement("button", { onClick: () => exportReportToExcel(booths, supervisors), title: "எக்செல் அறிக்கை", className: "bg-sky-700 text-white font-bold p-2 sm:px-3 rounded-lg shadow hover:bg-sky-800 flex items-center transition-colors" },
+                                      React.createElement(ExportIcon, null),
+                                      React.createElement("span", { className: "hidden sm:inline ml-2" }, "எக்செல் அறிக்கை")
+                                  ),
+                                  React.createElement("button", { onClick: () => exportLeaderboardToExcel(booths), title: "லீடர்போர்டு ஏற்றுமதி", className: "bg-purple-700 text-white font-bold p-2 sm:px-3 rounded-lg shadow hover:bg-purple-800 flex items-center transition-colors" },
+                                      React.createElement(ExportIcon, null),
+                                      React.createElement("span", { className: "hidden sm:inline ml-2" }, "லீடர்போர்டு ஏற்றுமதி")
+                                  )
+                                 )
+                              ),
+                              currentUser.role === 'team' && currentSupervisor && (
+                                   React.createElement(React.Fragment, null,
+                                      React.createElement("button", { onClick: () => generateSupervisorPdf(boothsForCurrentUser, currentSupervisor), title: "PDF அறிக்கை", className: "bg-green-600 text-white font-bold p-2 sm:px-3 rounded-lg shadow hover:bg-green-700 flex items-center transition-colors" },
+                                          React.createElement(ExportIcon, null),
+                                          React.createElement("span", { className: "hidden sm:inline ml-2" }, "PDF அறிக்கை")
+                                      ),
+                                      React.createElement("button", { onClick: () => exportSupervisorReportToExcel(boothsForCurrentUser, currentSupervisor), title: "எக்செல் அறிக்கை", className: "bg-sky-700 text-white font-bold p-2 sm:px-3 rounded-lg shadow hover:bg-sky-800 flex items-center transition-colors" },
+                                          React.createElement(ExportIcon, null),
+                                          React.createElement("span", { className: "hidden sm:inline ml-2" }, "எக்செல் அறிக்கை")
+                                      )
+                                  )
+                              ),
+                              React.createElement("button", { onClick: handleLogout, title: "வெளியேறு", className: "bg-gray-200 text-gray-700 font-bold p-2 sm:px-4 rounded-lg shadow hover:bg-gray-300 flex items-center transition-colors" },
+                                  React.createElement(LogoutIcon, null),
+                                  React.createElement("span", { className: "hidden sm:inline ml-2" }, "வெளியேறு")
+                              )
+                          )
+                      )
+                  ),
+
+                  React.createElement("main", { className: "container mx-auto p-4" },
+                      importMessage && (
+                          React.createElement("div", { 
+                            className: `p-4 mb-4 rounded-md text-white text-center font-semibold ${importMessage.type === 'success' ? 'bg-green-500' : 'bg-red-500'}`,
+                            role: "alert"
+                          },
+                              importMessage.text
+                          )
+                      ),
+                      
+                      currentUser.role === 'admin' && (
+                          React.createElement("div", { className: "bg-white p-4 rounded-lg shadow mb-6" },
+                              React.createElement("h2", { className: "text-xl font-bold mb-3 text-gray-700" }, "மேற்பார்வையாளர் மேலாண்மை"),
+                              React.createElement("div", { className: "flex flex-wrap gap-4 items-center" },
+                                  React.createElement("button", { onClick: openSupervisorModal, className: "bg-red-700 text-white p-2 sm:px-4 rounded-lg shadow hover:bg-red-800 flex items-center transition-colors" },
+                                      React.createElement(AddUserIcon, null), " ", React.createElement("span", { className: "ml-2 hidden sm:inline" }, "புதிய மேற்பார்வையாளர்")
+                                  ),
+                                  React.createElement("div", { className: "flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3" },
+                                      supervisors.map((s) => {
+                                          const assignedBooths = booths.filter(b => b.supervisorId === s.id);
+                                          return (
+                                              React.createElement("div", { key: s.id, className: "bg-gray-50 border border-gray-200 p-3 rounded-md" },
+                                                  React.createElement("p", { className: "font-bold text-gray-900" }, s.name, " ", React.createElement("span", { className: "text-sm font-normal text-gray-500" }, "(", s.phone, ")")),
+                                                  React.createElement("p", { className: "font-semibold text-sm text-red-700" }, "பயனர்பெயர்: ", s.username),
+                                                  React.createElement("p", { className: "text-sm text-gray-600" }, formatBoothList(assignedBooths))
+                                              )
+                                          )
+                                      })
+                                  )
+                              )
+                          )
+                      ),
+                       
+                      currentUser.role === 'admin' && React.createElement(Leaderboard, { booths: booths }),
+
+                      currentUser.role === 'team' && currentSupervisor && (
+                          React.createElement(React.Fragment, null,
+                              React.createElement("div", { className: "bg-white p-4 rounded-lg shadow mb-6" },
+                                  React.createElement("h2", { className: "text-xl font-bold mb-3 text-gray-700" }, "சாவடி செயல்திறன் - மொத்த உறுப்பினர்கள்"),
+                                  React.createElement(BoothPerformanceChart, { boothsToShow: filteredBooths })
+                              ),
+                              React.createElement(Leaderboard, { booths: boothsForCurrentUser })
+                          )
+                      ),
+                      
+                      React.createElement("div", { className: "bg-white p-4 rounded-lg shadow" },
+                          React.createElement("div", { className: "flex flex-col sm:flex-row justify-between sm:items-center mb-4 gap-4 sm:gap-2" },
+                              React.createElement("h2", { className: "text-xl font-bold text-gray-700 w-full sm:w-auto" },
+                                  currentUser.role === 'admin' ? 'அனைத்து வாக்குச்சாவடி விபரங்கள்' : `மேற்பார்வையாளர்: ${currentSupervisor?.name || ''}`
+                              ),
+                              React.createElement("input", {
+                                  type: "text",
+                                  placeholder: "தேடுக (பெயர், சாவடி எண்...)",
+                                  value: searchTerm,
+                                  onChange: (e) => setSearchTerm(e.target.value),
+                                  className: "border border-gray-300 rounded-md p-2 w-full sm:w-1/2 md:w-1/3"
+                              })
+                          ),
+
+                          React.createElement("div", { className: "overflow-x-auto hidden md:block" },
+                              React.createElement("table", { className: "w-full text-sm text-left text-gray-600" },
+                                  React.createElement("thead", { className: "text-xs text-white uppercase bg-black" },
+                                      React.createElement("tr", null,
+                                          React.createElement("th", { scope: "col", className: "px-6 py-3" }, "சாவடி எண்"),
+                                          React.createElement("th", { scope: "col", className: "px-6 py-3" }, "டிஜிட்டல் ஏஜென்ட்"),
+                                          React.createElement("th", { scope: "col", className: "px-6 py-3" }, "வாக்காளர் அட்டை எண்"),
+                                          React.createElement("th", { scope: "col", className: "px-6 py-3" }, "கழக ஒன்றியம் / பகுதி"),
+                                          currentUser.role === 'admin' && React.createElement("th", { scope: "col", className: "px-6 py-3" }, "மேற்பார்வையாளர்"),
+                                          React.createElement("th", { scope: "col", className: "px-4 py-3" }, "சந்தித்த குடும்பங்கள்"),
+                                          React.createElement("th", { scope: "col", className: "px-4 py-3" }, "மொத்த உறுப்பினர்கள்"),
+                                          React.createElement("th", { scope: "col", className: "px-6 py-3 text-center" }, "செயல்பாடு")
+                                      )
+                                  ),
+                                  React.createElement("tbody", null,
+                                      filteredBooths.map(booth => {
+                                          const supervisor = booth.supervisorId ? supervisorMap.get(booth.supervisorId) : null;
+                                          return (
+                                          React.createElement("tr", { key: booth.id, className: "bg-white border-b hover:bg-red-50" },
+                                              React.createElement("th", { scope: "row", className: "px-6 py-4 font-bold text-gray-900 whitespace-nowrap" }, booth.id),
+                                              React.createElement("td", { className: "px-6 py-4" },
+                                                  booth.agent ? (
+                                                      React.createElement("div", null,
+                                                          React.createElement("p", { className: "font-semibold" }, booth.agent.name),
+
+                                                          React.createElement("p", { className: "text-xs text-gray-500" }, booth.agent.phone)
+                                                      )
+                                                  ) : (React.createElement("span", { className: "text-gray-400" }, "நியமிக்கப்படவில்லை"))
+                                              ),
+                                              React.createElement("td", { className: "px-6 py-4" }, booth.agent?.voterId || '-'),
+                                              React.createElement("td", { className: "px-6 py-4" }, booth.agent?.union || '-'),
+                                              currentUser.role === 'admin' && React.createElement("td", { className: "px-6 py-4" }, supervisor?.name || React.createElement("span", { className: "text-gray-400" }, "...")),
+                                              React.createElement("td", { className: "px-4 py-4 text-center font-bold" }, booth.familiesMet),
+                                              React.createElement("td", { className: "px-4 py-4 text-center font-bold text-red-700" }, booth.totalMembers),
+                                              React.createElement("td", { className: "px-6 py-4 text-center" },
+                                                  currentUser.role === 'admin' && (
+                                                      React.createElement("button", { onClick: () => openAgentModal(booth), className: "text-blue-600 hover:text-blue-800 font-medium p-1 rounded-full hover:bg-blue-100", title: "திருத்து" },
+                                                          React.createElement(EditIcon, null)
+                                                      )
+                                                  ),
+                                                  currentUser.role === 'team' && (
+                                                      React.createElement("button", { onClick: () => openDailyReportModal(booth), className: "text-green-600 hover:text-green-800 font-medium p-1 rounded-full hover:bg-green-100", title: "அன்றைய அறிக்கை சேர்" },
+                                                          React.createElement(ReportIcon, null)
+                                                      )
+                                                  )
+                                              )
+                                          ))
+                                      })
+                                  )
+                              )
+                          ),
+
+                          React.createElement("div", { className: "md:hidden space-y-4" },
+                             filteredBooths.map(booth => {
+                                 const supervisor = booth.supervisorId ? supervisorMap.get(booth.supervisorId) : null;
+                                 return (
+                                     React.createElement("div", { key: booth.id, className: "bg-white rounded-lg shadow p-4 border-l-4 border-red-700" },
+                                         React.createElement("div", { className: "flex justify-between items-center mb-4" },
+                                             React.createElement("div", null,
+                                                 React.createElement("p", { className: "text-sm text-gray-500" }, "சாவடி எண்"),
+                                                 React.createElement("p", { className: "font-bold text-2xl text-red-700" }, booth.id)
+                                             ),
+                                             currentUser.role === 'admin' && (
+                                                 React.createElement("button", { onClick: () => openAgentModal(booth), className: "bg-blue-600 text-white px-3 py-2 rounded-lg shadow hover:bg-blue-700 flex items-center gap-2", title: "திருத்து" },
+                                                     React.createElement(EditIcon, null), " ", React.createElement("span", { className: "text-sm font-bold" }, "திருத்து")
+                                                 )
+                                             ),
+                                             currentUser.role === 'team' && (
+                                                 React.createElement("button", { onClick: () => openDailyReportModal(booth), className: "bg-green-600 text-white px-3 py-2 rounded-lg shadow hover:bg-green-700 flex items-center gap-2", title: "அன்றைய அறிக்கை சேர்" },
+                                                     React.createElement(ReportIcon, null), " ", React.createElement("span", { className: "text-sm font-bold" }, "அறிக்கை")
+                                                 )
+                                             )
+                                         ),
+
+                                         React.createElement("div", { className: "space-y-3" },
+                                             React.createElement("div", null,
+                                                 React.createElement("p", { className: "text-xs font-semibold text-gray-500 uppercase tracking-wider" }, "டிஜிட்டல் ஏஜென்ட்"),
+                                                 booth.agent ? (
+                                                     React.createElement("div", { className: "mt-1" },
+                                                         React.createElement("p", { className: "font-semibold text-gray-800" }, booth.agent.name),
+                                                         React.createElement("p", { className: "text-sm text-gray-600" }, booth.agent.phone),
+                                                         React.createElement("p", { className: "text-sm text-gray-600" }, "வாக்காளர்: ", booth.agent.voterId)
+                                                     )
+                                                 ) : (React.createElement("p", { className: "text-gray-400 italic mt-1" }, "நியமிக்கப்படவில்லை"))
+                                             ),
+                                             
+                                             React.createElement("div", null,
+                                                 React.createElement("p", { className: "text-xs font-semibold text-gray-500 uppercase tracking-wider" }, "கழக ஒன்றியம் / பகுதி"),
+                                                 React.createElement("p", { className: "mt-1 font-semibold text-gray-800" }, booth.agent?.union || React.createElement("span", { className: "text-gray-400 italic" }, "..."))
+                                             ),
+
+                                             currentUser.role === 'admin' && (
+                                                 React.createElement("div", null,
+                                                     React.createElement("p", { className: "text-xs font-semibold text-gray-500 uppercase tracking-wider" }, "மேற்பார்வையாளர்"),
+                                                     React.createElement("p", { className: "mt-1 font-semibold text-gray-800" }, supervisor?.name || React.createElement("span", { className: "text-gray-400 italic" }, "..."))
+                                                 )
+                                             ),
+                                             
+                                             React.createElement("div", { className: "flex justify-around items-center pt-3 mt-3 border-t" },
+                                                  React.createElement("div", null,
+                                                      React.createElement("p", { className: "text-xs font-semibold text-gray-500 uppercase tracking-wider" }, "சந்தித்த குடும்பங்கள்"),
+                                                      React.createElement("p", { className: "mt-1 text-xl text-center font-bold" }, booth.familiesMet)
+                                                  ),
+                                                  React.createElement("div", null,
+                                                      React.createElement("p", { className: "text-xs font-semibold text-gray-500 uppercase tracking-wider" }, "மொத்த உறுப்பினர்கள்"),
+                                                      React.createElement("p", { className: "mt-1 text-xl text-center font-bold text-red-700" }, booth.totalMembers)
+                                                  )
+                                             )
+                                         )
+                                     )
+                                 )
+                             })
+                          ),
+                          
+                          filteredBooths.length === 0 && React.createElement("p", { className: "text-center text-gray-500 py-8" }, "தேடலுக்குப் பொருத்தமான முடிவுகள் எதுவும் இல்லை.")
+                      )
+                  ),
+
+                  React.createElement(Modal, {
+                      isOpen: modal.isOpen,
+                      onClose: () => setModal({ ...modal, isOpen: false }),
+                      title:
+                          modal.type === 'agent' ? `சாவடி ${modal.data?.id} - ஏஜென்ட் விபரம்` :
+                          modal.type === 'supervisor' ? 'புதிய மேற்பார்வையாளர்' :
+                          modal.type === 'dailyReport' ? `சாவடி ${modal.data?.id} - தினசரி அறிக்கை` : ''
+                  },
+                      modal.isOpen && modal.type === 'agent' && React.createElement(AgentForm, { booth: modal.data, onClose: () => setModal({ ...modal, isOpen: false }) }),
+                      modal.isOpen && modal.type === 'supervisor' && React.createElement(SupervisorForm, { nextUsername: modal.data.nextUsername, allBooths: booths, onAddSupervisor: handleAddSupervisor, onClose: () => setModal({ ...modal, isOpen: false }) }),
+                      modal.isOpen && modal.type === 'dailyReport' && React.createElement(DailyReportModal, { booth: modal.data, onSave: handleSaveDailyEntry, onClose: () => setModal({ ...modal, isOpen: false }) })
+                  )
+              )
+          );
+      }
+      
+      const rootElement = document.getElementById('root');
+      if (!rootElement) {
+        throw new Error("Could not find root element to mount to");
+      }
+
+      const root = ReactDOM.createRoot(rootElement);
+      root.render(
+        React.createElement(React.StrictMode, null, React.createElement(App, null))
+      );
+
+    </script>
+  </body>
+</html>
