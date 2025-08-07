@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">DMK ITWING KRISHNAGIRI WEST</string>
+    <string name="title_activity_main">DMK ITWING KRISHNAGIRI WEST</string>
+    <string name="package_name">com.example.dmkitwingkrishnagiriwest</string>
+    <string name="custom_url_scheme">com.example.dmkitwingkrishnagiriwest</string>
+</resources>
